@@ -26,19 +26,38 @@ impl PlayAudio {
         // output tab as well.
         godot_print!("Greetings Bolster!");
         godot_print!("Attempting to play audio...");
-        //godot_print!("{:?}", Node::get_tree(&_owner));
-        //let Player = Node::get_node("./Node/AudioStreamPlayer");
         AudioStreamPlayer::play(&mut _owner, 0.0);
+        godot_print!("Playing audio...");
+        godot_print!("Setting up loop...");
+        let object = &_owner.to_object();
+        _owner
+        .connect(
+            GodotString::from_str("finished"),
+            Some(*object),
+            GodotString::from_str("_finished"),
+            VariantArray::new(),
+            1,
+        )
+        .unwrap();
 
+        //_owner.emit_signal(GodotString::from_str("finished"), &[]);
 
+        godot_print!("Loop Set...");
     
     }
+
+    #[export]
+    unsafe fn _finished(&mut self, mut _owner:AudioStreamPlayer){
+    AudioStreamPlayer::play(&mut _owner, 0.0);
+    godot_print!("Audio has looped!");
+}
 }
 
 // Function that registers all exposed classes to Godot
 fn init(handle: gdnative::init::InitHandle) {
     handle.add_class::<PlayAudio>();
 }
+
 
 // macros that create the entry-points of the dynamic library.
 godot_gdnative_init!();
