@@ -1,0 +1,16 @@
+[general]
+
+singleton=false
+load_once=true
+symbol_prefix="godot_"
+reloadable=true
+
+[entry]
+
+OSX.64="./target/debug/libplayaudio.dylib"
+X11.64="./target/debug/libplayaudio.so"
+
+[dependencies]
+
+OSX.64=[  ]
+X11.64=[  ]
